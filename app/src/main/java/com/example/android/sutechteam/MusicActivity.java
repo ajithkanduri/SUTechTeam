@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 
 import java.io.File;
@@ -18,7 +18,7 @@ public class MusicActivity extends AppCompatActivity {
     int position;
     ArrayList<File> mySongs;
     Uri uri;
-    Button play;
+    ImageButton play;
     Thread UpdateSeekBar;
     SeekBar seekBar;
 
@@ -26,9 +26,9 @@ public class MusicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.song);
-        final Button play = (Button) findViewById(R.id.button);
-        Button prev = (Button) findViewById(R.id.button2);
-        Button next = (Button) findViewById(R.id.button3);
+        final ImageButton play = (ImageButton) findViewById(R.id.button);
+        ImageButton prev = (ImageButton) findViewById(R.id.button2);
+        ImageButton next = (ImageButton) findViewById(R.id.button3);
         final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
 
         UpdateSeekBar = new Thread(){
@@ -52,16 +52,18 @@ public class MusicActivity extends AppCompatActivity {
         };
 
 
-        if (mp != null) {
-            mp.stop();
-            mp.release();
-        }
+
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
         mySongs = (ArrayList) bundle.getParcelableArrayList("songlist");
         position = bundle.getInt("pos", 0);
         uri = Uri.parse(mySongs.get(position).toString());
+        if (mp != null) {
+            mp.stop();
+            mp.release();
+        }
         mp = android.media.MediaPlayer.create(getApplicationContext(), uri);
+
         mp.start();
         play.setOnClickListener(new View.OnClickListener()
         {
@@ -69,9 +71,10 @@ public class MusicActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (mp.isPlaying()) {
                     mp.pause();
-                    play.setText(">");
+                    play.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
                 } else {
                     mp.start();
+                    play.setImageResource(R.drawable.ic_play_arrow_black_24dp);
                 }
             }
         });
@@ -123,5 +126,16 @@ public class MusicActivity extends AppCompatActivity {
             }
         });
 
+    }
+  @Override
+  protected void onStop(){
+        super.onStop();
+        mp.stop();
+  }
+    @Override
+    protected  void onRestart(){
+        super.onRestart();
+        mp.stop();
+        mp.release();
     }
 }

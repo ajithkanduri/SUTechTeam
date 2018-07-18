@@ -27,7 +27,7 @@
             android:id="@+id/imvusericon1"
             android:layout_height="45dp"
             android:layout_width="45dp"
-            android:background="#26A69A"
+            android:background="#ff3d00"
             android:padding="8dp"
             android:tint="#FFFFFF"
             android:src="@drawable/ic_user"
@@ -39,7 +39,9 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/imvusericon1"
             android:hint="USER NAME"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:id="@+id/username"/>
+
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl2"
@@ -54,7 +56,7 @@
             android:id="@+id/imvusericon"
             android:layout_height="45dp"
             android:layout_width="45dp"
-            android:background="#26A69A"
+            android:background="#ff3d00"
             android:padding="8dp"
             android:tint="#FFFFFF"
             android:src="@drawable/ic_pswrd"
@@ -67,6 +69,7 @@
             android:layout_toRightOf="@+id/imvusericon"
             android:hint="PASSWORD"
             android:inputType="textPassword"
+            android:id="@+id/pswrd"
 
             android:textSize="15sp"/>
     </RelativeLayout>

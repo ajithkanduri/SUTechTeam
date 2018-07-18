@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -28,6 +32,9 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     private static String TAG = "Main Activity";
     FirebaseAuth.AuthStateListener mAuthListener;
+   // String username = "Ajith";
+   // String password ="sutechteam";
+    Button login;
     @Override
     protected void onStart() {
         super.onStart();
@@ -60,7 +67,32 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
+        login = (Button)findViewById(R.id.login);
+        final EditText user = (EditText) findViewById(R.id.username);
 
+       final EditText pswrd = (EditText)findViewById(R.id.pswrd);
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String u = user.getText().toString();
+                final String p = pswrd.getText().toString();
+                if(u.equals( "UserName")&& p.equals("Password")){
+                    Intent nav = new Intent(LoginActivity.this,NavigationActivity.class);
+                    startActivity(nav);
+                }
+                else {
+                    Toast.makeText(LoginActivity.this, "Invalid UserName or Password",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        LayoutInflater myInflater = LayoutInflater.from(this);
+        View view = myInflater.inflate(R.layout.activity_login, null);
+        Toast mytoast = new Toast(this);
+        mytoast.setView(view);
+        mytoast.setDuration(Toast.LENGTH_LONG);
+        mytoast.show();
     }
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "335943741076",
+    "firebase_url": "https://sutechteam-64277.firebaseio.com",
+    "project_id": "sutechteam-64277",
+    "storage_bucket": "sutechteam-64277.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335943741076:android:1b30689a93a7716d",
+        "android_client_info": {
+          "package_name": "com.example.android.sutechteam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335943741076-k3tapldh7np2v3noet1u0reiviut63qi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.sutechteam",
+            "certificate_hash": "5e86f9ec69e7b1b1dd6e4972617b3c8e71287329"
+          }
+        },
+        {
+          "client_id": "335943741076-pn8e3964srfcp7hnqulqfjng7m022prv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTFd6nK-SwKIAXZ2Le-KF8BXo87m0-iM0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335943741076-pn8e3964srfcp7hnqulqfjng7m022prv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

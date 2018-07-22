@@ -32,6 +32,10 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     private static String TAG = "Main Activity";
     FirebaseAuth.AuthStateListener mAuthListener;
+    public static int x;
+    public static String username;
+    public static String gmail;
+    public static String photoUrl;
    // String username = "Ajith";
    // String password ="sutechteam";
     Button login;
@@ -78,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                 final String u = user.getText().toString();
                 final String p = pswrd.getText().toString();
                 if(u.equals( "UserName")&& p.equals("Password")){
+                    x=1;
                     Intent nav = new Intent(LoginActivity.this,NavigationActivity.class);
                     startActivity(nav);
                 }
@@ -116,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -128,6 +133,18 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                           /* photoUrl = null;
+                            if(acct.getPhotoUrl()!= null)
+                            {
+                                photoUrl = acct.getPhotoUrl().toString();
+                            }
+
+                             username =    acct.getDisplayName()+ " "+ acct.getFamilyName();
+                            gmail =    acct.getEmail();*/
+                               // photoUrl,
+                                //FirebaseAuth.getInstance().getCurrentUser().getUid()
+
+
                             // updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -140,7 +157,19 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
+   public static int getLogin()
+    {
+        return x;
+    }/*
+    public static String getUsername()
+    {
+        return username;
+    }
+    public static String getGmail()
+    {
+        return gmail;
+    }
+*/
 
 
 

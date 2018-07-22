@@ -1,7 +1,9 @@
 package com.example.android.sutechteam;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,9 +12,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.squareup.picasso.Picasso;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    LoginActivity loginActivity;
+    public int y = LoginActivity.getLogin();
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListner;
+    private String name;
+    private Uri photoUrl;
+    private ImageView mPic;
+    private TextView usrname;
+    private TextView mail;
+    private String gmail;
+
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListner);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +45,30 @@ public class NavigationActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mAuth = FirebaseAuth.getInstance();
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        /*if (user != null) {
+            // Name, email address, and profile photo Url
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
 
+            // Check if user's email is verified
+            boolean emailVerified = user.isEmailVerified();
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getIdToken() instead.
+            String uid = user.getUid();
+        }*/
+        mAuthListner = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() == null) {
+                    startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+                }
+            }
+        };
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -31,6 +79,12 @@ public class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mPic = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        usrname = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+        mail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView_mail);
+        // usrname.setText(user.getDisplayName());
+        //mail.setText(LoginActivity.getGmail());
+        getCurrentInfo();
     }
 
     @Override
@@ -61,6 +115,14 @@ public class NavigationActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.Logout) {
+            if (y == 1) {
+                Intent logout = new Intent(NavigationActivity.this, LoginActivity.class);
+                startActivity(logout);
+            } else {
+                mAuth.signOut();
+            }
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -73,10 +135,10 @@ public class NavigationActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            Intent music = new Intent(NavigationActivity.this,MediaPlayer.class);
+            Intent music = new Intent(NavigationActivity.this, MediaPlayer.class);
             startActivity(music);
         } else if (id == R.id.nav_gallery) {
-            Intent contact = new Intent(NavigationActivity.this,ContactsActivity.class);
+            Intent contact = new Intent(NavigationActivity.this, ContactsActivity.class);
             startActivity(contact);
 
 
@@ -85,5 +147,32 @@ public class NavigationActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void getCurrentInfo() {
+        FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
+        if (User != null) {
+            for (UserInfo profile : User.getProviderData()) {
+                // Id of the provider (ex: google.com)
+                String providerId = profile.getProviderId();
+
+                // UID specific to the provider
+                String uid = profile.getUid();
+                name = profile.getDisplayName();
+                gmail = profile.getEmail();
+                photoUrl = profile.getPhotoUrl();
+                usrname.setText(name);
+                mail.setText(gmail);
+
+                Picasso.with(getApplicationContext())
+                        .load(photoUrl.toString())
+                        .placeholder(R.drawable.bitslogo)
+                        .resize(100, 100)
+                        .transform(new CircularTransformation())
+                        .centerCrop()
+                        .into(mPic);
+
+            };
+        }
     }
 }

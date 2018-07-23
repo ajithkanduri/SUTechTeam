@@ -28,7 +28,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class LoginActivity extends AppCompatActivity {
     SignInButton btn;
     FirebaseAuth mAuth;
-    private static int RC_SIGN_IN =2;
+    private static int RC_SIGN_IN =6;
     GoogleSignInClient mGoogleSignInClient;
     private static String TAG = "Main Activity";
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -36,8 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     public static String username;
     public static String gmail;
     public static String photoUrl;
-   // String username = "Ajith";
-   // String password ="sutechteam";
     Button login;
     @Override
     protected void onStart() {
@@ -48,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        LayoutInflater myInflater = LayoutInflater.from(this);
+        View view = myInflater.inflate(R.layout.activity_login, null);
         btn = (SignInButton) findViewById(R.id.googlebtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,17 +74,19 @@ public class LoginActivity extends AppCompatActivity {
         login = (Button)findViewById(R.id.login);
         final EditText user = (EditText) findViewById(R.id.username);
 
-       final EditText pswrd = (EditText)findViewById(R.id.pswrd);
+        final EditText pswrd = (EditText)findViewById(R.id.pswrd);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String u = user.getText().toString();
                 final String p = pswrd.getText().toString();
-                if(u.equals( "UserName")&& p.equals("Password")){
+                if(u.equals( "Username")&& p.equals("Password")){
                     x=1;
-                    Intent nav = new Intent(LoginActivity.this,NavigationActivity.class);
-                    startActivity(nav);
+                    //Intent nav = new  Intent(LoginActivity.this,NavigationActivity.class);
+                    startActivity(new  Intent(LoginActivity.this,NavigationActivity.class));
+                    Toast.makeText(LoginActivity.this, "Welcome",
+                            Toast.LENGTH_LONG).show();
                 }
                 else {
                     Toast.makeText(LoginActivity.this, "Invalid UserName or Password",
@@ -92,8 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-        LayoutInflater myInflater = LayoutInflater.from(this);
-        View view = myInflater.inflate(R.layout.activity_login, null);
+
         Toast mytoast = new Toast(this);
         mytoast.setView(view);
         mytoast.setDuration(Toast.LENGTH_LONG);
@@ -160,16 +161,8 @@ public class LoginActivity extends AppCompatActivity {
    public static int getLogin()
     {
         return x;
-    }/*
-    public static String getUsername()
-    {
-        return username;
     }
-    public static String getGmail()
-    {
-        return gmail;
-    }
-*/
+
 
 
 

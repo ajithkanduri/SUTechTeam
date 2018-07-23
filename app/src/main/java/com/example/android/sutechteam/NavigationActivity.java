@@ -35,7 +35,8 @@ public class NavigationActivity extends AppCompatActivity
 
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListner);
+        if(y!=1){
+        mAuth.addAuthStateListener(mAuthListner);}
     }
 
 
@@ -43,10 +44,11 @@ public class NavigationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mAuth = FirebaseAuth.getInstance();
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(y!= 1) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         /*if (user != null) {
             // Name, email address, and profile photo Url
             String name = user.getDisplayName();
@@ -61,30 +63,51 @@ public class NavigationActivity extends AppCompatActivity
             // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
         }*/
-        mAuthListner = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() == null) {
-                    startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+
+            mAuth = FirebaseAuth.getInstance();
+            mAuthListner = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    if (firebaseAuth.getCurrentUser() == null) {
+                        startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
+                    }
                 }
-            }
-        };
+            };
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        mPic = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
-        usrname = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        mail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView_mail);
-        // usrname.setText(user.getDisplayName());
-        //mail.setText(LoginActivity.getGmail());
-        getCurrentInfo();
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+            mPic = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+            usrname = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+            mail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView_mail);
+            // usrname.setText(user.getDisplayName());
+            //mail.setText(LoginActivity.getGmail());
+
+            getCurrentInfo();
+
+        }
+        if(y==1){
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+            mPic = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+            usrname = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+            mail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView_mail);
+            // usrname.setText(user.getDisplayName());*/
+        }
     }
 
     @Override
